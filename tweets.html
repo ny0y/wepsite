@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Engineering Trends | Ahmed Almalki</title>
+    <link href="school.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="works_on_smartphone">
+    <header>
+        <nav>
+            <ul>
+                <li class="logo">📊</li>
+                <li><a href="index.html">Mission</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="tweets.html" class="active">AI Engineering</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <div class="right">
+                <a href="https://twitter.com/share?url=yourURL&text=AI%20Engineering%20Trends" class="social-twitter">Tweet</a>
+                <a href="https://www.linkedin.com/in/ahmed-ibrahim-almalki/" class="social-linkedin">LinkedIn</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h1>AI Engineering Developments</h1>
+            
+            <!-- Embedded AI Industry Tweets -->
+            <section class="tweet-container">
+                <blockquote class="twitter-tweet">
+                    <p>New architectures for production ML: Researchers developed a framework for 40% faster model serving using optimized container orchestration. <a href="https://example.com/ml-engineering">pic.twitter.com/xyz</a></p>
+                    — AI Engineering (@AI_Engineering) <a href="https://twitter.com/AI_Engineering/status/12345">June 15, 2024</a>
+                </blockquote>
+                
+                <blockquote class="twitter-tweet">
+                    <p>The future of ML deployment: Kubernetes-based scaling solutions are reducing inference costs by 60% for enterprise AI applications.</p>
+                    — ML Ops News (@MLOps_News) <a href="https://twitter.com/MLOps_News/status/67890">June 10, 2024</a>
+                </blockquote>
+            </section>
+            
+            <!-- Twitter Script -->
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            
+           <!-- HTML Structure -->
+            <section class="ai-discussion-form">
+                <h2 class="section-title">Discuss AI Engineering Challenges</h2>
+                <p class="section-subtitle">Share your experiences with production ML systems and deployment strategies</p>
+                
+                <form id="ai-discussion-form" action="https://formspree.io/f/xqakowdg" method="POST">
+                <div class="form-group">
+                    <label for="name" class="input-label">
+                    <span class="label-text">Your Name</span>
+                    <input type="text" id="name" name="name" required 
+                            placeholder="e.g. Ahmed Almalki"
+                            class="input-field">
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="input-label">
+                    <span class="label-text">Email Address</span>
+                    <input type="email" id="email" name="email" required
+                            placeholder="your.email@example.com"
+                            class="input-field">
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ai-topic" class="input-label">
+                    <span class="label-text">Engineering Focus Area</span>
+                    <select id="ai-topic" name="ai_topic" class="input-field">
+                        <option value="" disabled selected>Select an engineering topic</option>
+                        <option value="mlops">MLOps & Pipeline Automation</option>
+                        <option value="deployment">Model Deployment Strategies</option>
+                        <option value="scaling">Distributed Training & Scaling</option>
+                        <option value="monitoring">Production Monitoring</option>
+                        <option value="other">Other Engineering Challenge</option>
+                    </select>
+                    </label>
+                </div>
+                
+                <div class="form-group" id="custom-topic-group" style="display:none;">
+                    <label for="custom-topic" class="input-label">
+                    <span class="label-text">Describe Your Engineering Challenge</span>
+                    <textarea id="custom-topic" name="custom_topic" rows="3"
+                                placeholder="e.g. Optimizing GPU utilization in Kubernetes"
+                                class="input-field textarea-field"></textarea>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="input-label">
+                    <span class="label-text">Technical Insights</span>
+                    <textarea id="message" name="message" rows="5" required
+                                placeholder="Share your engineering solutions or challenges..."
+                                class="input-field textarea-field"></textarea>
+                    </label>
+                </div>
+                
+                <div class="form-footer">
+                    <div class="h-captcha" data-sitekey="your-site-key"></div>
+                    <button type="submit" class="submit-button">
+                    <span class="button-text">Submit Technical Discussion</span>
+                    <span class="button-icon">→</span>
+                    </button>
+                </div>
+                </form>
+            </section>
+            
+            <!-- hCaptcha Script (at end of body) -->
+            <script src="https://js.hcaptcha.com/1/api.js?onload=onHCaptchaLoad" async defer></script>
+        </article>
+
+        <aside>
+            <div id="disqus_thread" data-disqus-identifier="tweets_page"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'https://yourdomain.com/tweets.html';
+                    this.page.identifier = 'tweets_page';
+                };
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://almalki-ai.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+        </aside>
+    </main>
+
+    <footer>
+        <p>Made by <a href="about.html">Ahmed Almalki</a> for <a href="https://www.holbertonschool.com" target="_blank"><img src="https://apply.holbertonschool.com/holberton-logo.png">.</p></a></p>
+    </footer>
+
+    <script src="behavior.js"></script>
+</body>
+</html>
