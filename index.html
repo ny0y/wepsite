@@ -30,7 +30,7 @@
 
         .clickable-paragraph:hover {
             background-color: #ebf0ff;
-            transform: translateY(-3px);
+            transform: translateY(-3px); 
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
             border-color: #3498db;
         }
@@ -63,14 +63,58 @@
             margin-bottom: 20px;
         }
 
+        /* Layout for main and aside */
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        main {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        aside {
+            width: 350px;
+            min-width: 300px;
+            flex-shrink: 0;
+        }
+
         /* Disqus Thread Styling */
         #disqus_thread {
-            background: white;
-            padding: 2rem;
+            background: #eee;
+            padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            margin: 3rem auto;
-            max-width: 1200px;
+            margin: 0;
+            width: 100%;
+            min-height: 300px;
+            position: relative;
+        }
+        
+        .disqus-fallback {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+        aside {
+          max-width: fit-content;
+          flex: 1;
+          overflow-y: auto;
+          border-left: 1px solid #eaeaea;
+          padding-left: 1rem;
+          
+      }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
         }
     </style>
 </head>
@@ -85,85 +129,94 @@
                 <li><a href="about.html">About</a></li>
             </ul>
             <div class="right">
-                <a href="https://twitter.com/share?url=yourURL&text=AI%20Solutions%20for%20Healthcare" class="social-twitter">Tweet</a>
+                <a href="https://twitter.com/share?url=http://15.188.89.218/index.html&text=Programming%20Scalable%20Solutions" class="social-twitter">Tweet</a>
                 <a href="https://www.linkedin.com/in/ahmed-ibrahim-almalki/" class="social-linkedin">LinkedIn</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <section class="mission-section">
-            <div class="mission-content">
-              <h1>Engineering Scalable Solutions</h1>
-              
-              <div class="mission-statement">
-                <div class="image-modal">
-                  <img class="modal-content" src="assets/visual.jpg" alt="Technology Visualization">
-
-                  <div class="document-cta">
-                    <p class="clickable-paragraph" id="docLink">
-                        Click here to view my full project documentation and case studies.
-                        <a href="https://www.canva.com/design/DAGQt8qm8t8/nVlkk9JYJZ3g1tn-KslQwA/view?utm_content=DAGQt8qm8t8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9e1d1a50fd" 
-                           class="click-hint" 
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           onclick="event.stopPropagation()">
-                            (Learn more →)
-                        </a>
-                    </p>
-                </div>
-                
-                <div class="mission-text">
-                  <h2>Software Engineering Focus</h2>
-                  <p>As a software engineer specializing in AI systems, I architect robust solutions combining clean code principles with machine learning expertise to build production-ready applications.</p>
+    <div class="content-wrapper">
+        <main>
+            <section class="mission-section">
+                <div class="mission-content">
+                  <h1>Programming Scalable Solutions</h1>
                   
-                  <div class="mission-highlights">
-                    <div class="highlight-card">
-                      <div class="highlight-icon">🧠</div>
-                      <h3>System Architecture</h3>
-                      <p>Designing modular AI systems with maintainable codebases and scalable infrastructure</p>
+                  <div class="mission-statement">
+                    <div class="image-modal">
+                      <img class="modal-content" src="assets/visual.jpg" alt="Technology Visualization">
+
+                      <div class="document-cta">
+                        <p class="clickable-paragraph" id="docLink">
+                            Click here to view my full project documentation and case studies.
+                            <a href="https://www.canva.com/design/DAGQt8qm8t8/nVlkk9JYJZ3g1tn-KslQwA/view?utm_content=DAGQt8qm8t8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9e1d1a50fd" 
+                               class="click-hint" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               onclick="event.stopPropagation()">
+                                (Learn more →)
+                            </a>
+                        </p>
                     </div>
                     
-                    <div class="highlight-card">
-                      <div class="highlight-icon">🌍</div>
-                      <h3>ML Engineering</h3>
-                      <p>Implementing CI/CD pipelines for machine learning models with proper versioning and testing</p>
+                    <div class="mission-text">
+                      <h2>Software Engineering Focus</h2>
+                      <p>As a software engineer specializing in AI systems, I architect robust solutions combining clean code principles with machine learning expertise to build production-ready applications.</p>
+                      
+                      <div class="mission-highlights">
+                        <div class="highlight-card">
+                          <div class="highlight-icon">🧠</div>
+                          <h3>System Architecture</h3>
+                          <p>Designing modular AI systems with maintainable codebases and scalable infrastructure</p>
+                        </div>
+                        
+                        <div class="highlight-card">
+                          <div class="highlight-icon">🌍</div>
+                          <h3>ML Engineering</h3>
+                          <p>Implementing CI/CD pipelines for machine learning models with proper versioning and testing</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              
+                  <div class="ai-focus-areas">
+                    <h2>Technical Specializations</h2>
+                    <div class="focus-grid">
+                      <div class="focus-item">
+                        <h3>Model Deployment</h3>
+                        <p>Building containerized ML services with Docker and Kubernetes for reliable production deployment</p>
+                        <span class="ai-badge">MLOps</span>
+                        <span class="ai-badge">FastAPI</span>
+                      </div>
+                      
+                      <div class="focus-item">
+                        <h3>Backend Systems</h3>
+                        <p>Developing high-performance APIs and microservices to support AI applications</p>
+                        <span class="ai-badge">Python</span>
+                        <span class="ai-badge">Node.js</span>
+                      </div>
+                      
+                      <div class="focus-item">
+                        <h3>Data Engineering</h3>
+                        <p>Creating efficient data pipelines and feature stores for machine learning systems</p>
+                        <span class="ai-badge">Spark</span>
+                        <span class="ai-badge">Airflow</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-          
-              <div class="ai-focus-areas">
-                <h2>Technical Specializations</h2>
-                <div class="focus-grid">
-                  <div class="focus-item">
-                    <h3>Model Deployment</h3>
-                    <p>Building containerized ML services with Docker and Kubernetes for reliable production deployment</p>
-                    <span class="ai-badge">MLOps</span>
-                    <span class="ai-badge">FastAPI</span>
-                  </div>
-                  
-                  <div class="focus-item">
-                    <h3>Backend Systems</h3>
-                    <p>Developing high-performance APIs and microservices to support AI applications</p>
-                    <span class="ai-badge">Python</span>
-                    <span class="ai-badge">Node.js</span>
-                  </div>
-                  
-                  <div class="focus-item">
-                    <h3>Data Engineering</h3>
-                    <p>Creating efficient data pipelines and feature stores for machine learning systems</p>
-                    <span class="ai-badge">Spark</span>
-                    <span class="ai-badge">Airflow</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-    </main>
+              </section>
+        </main>
 
-    <!-- Disqus Thread at the bottom -->
-    <div id="disqus_thread" data-disqus-identifier="mission_page"></div>
+        <aside>
+            <!-- Disqus Thread moved to aside -->
+            <div id="disqus_thread" data-disqus-identifier="mission_page">
+              <noscript>
+                Please enable JavaScript to view the 
+                <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+              </noscript>
+            </div>
+        </aside>
+    </div>
 
     <footer>
         <p>Made by <a href="about.html">Ahmed Almalki</a> for <a href="https://www.holbertonschool.com" target="_blank" rel="noopener noreferrer">Holberton School <img src="https://apply.holbertonschool.com/holberton-logo.png" alt="Holberton School Logo"></a></p>
@@ -178,17 +231,36 @@
             }
         });
 
-        // Disqus script
+        // Disqus loading script
         var disqus_config = function () {
-            this.page.url = 'http://http://15.188.89.218/index.html';
-            this.page.identifier = 'mission_page';
+            this.page.url = window.location.href;
+            this.page.identifier = document.querySelector('[property="og:url"]')?.content 
+                               || window.location.pathname;
+            this.language = document.documentElement.lang || 'en';
         };
-        (function() {
+        
+        function loadDisqus() {
             var d = document, s = d.createElement('script');
-            s.src = 'https://almalki-ai.disqus.com/embed.js';
+            s.src = 'https://ahmed-ogvszupzxy.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
+            s.onerror = function() {
+                console.error('Disqus failed to load');
+                document.getElementById('disqus_thread').innerHTML = 
+                    '<div class="disqus-fallback">Comments loading failed. ' + 
+                    '<a href="javascript:location.reload()">Refresh</a> or ' +
+                    '<a href="mailto:help@domain.com">contact support</a>.</div>';
+            };
             (d.head || d.body).appendChild(s);
-        })();
+        }
+        
+        if (window.location.hostname !== 'localhost' && 
+            !window.location.protocol.startsWith('file')) {
+            if (document.readyState === 'complete') {
+                loadDisqus();
+            } else {
+                window.addEventListener('load', loadDisqus);
+            }
+        }
     </script>
     <script src="behavior.js"></script>
 </body>

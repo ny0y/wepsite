@@ -1,273 +1,149 @@
-class ProfessionalNavigation {
-    constructor() {
-      // DOM Elements
-      this.header = document.querySelector('header');
-      this.nav = document.querySelector('header nav');
-      this.navLinks = document.querySelectorAll('nav a');
-      this.mobileMenuBtn = null;
-      
-      // State
-      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
-      this.lastScrollY = window.scrollY;
-      this.scrollDirection = null;
-      this.events = [];
-      
-      // Initialize
-      this.init();
-    }
+class FormHandler {
+  constructor() {
+    this.form = document.getElementById('ai-discussion-form');
+    if (!this.form) return;
+
+    this.init();
+  }
+
+  init() {
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.form.addEventListener('submit', this.handleSubmit.bind(this));
     
-    /* Initialization Methods */
-    init() {
-      this.createMobileMenuButton();
-      this.setupEventListeners();
-      this.setActiveLink();
-      this.setupThemeToggle();
-      this.handleScroll(); // Initial scroll position check
-    }
-    
-    createMobileMenuButton() {
-      if (!this.isMobile) return;
-      
-      this.mobileMenuBtn = document.createElement('button');
-      this.mobileMenuBtn.className = 'mobile-menu-btn';
-      this.mobileMenuBtn.innerHTML = `
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-        <span class="menu-icon"></span>
-      `;
-      this.nav.prepend(this.mobileMenuBtn);
-      
-      // Add animation after short delay
-      setTimeout(() => {
-        this.mobileMenuBtn.classList.add('animated');
-      }, 300);
-    }
-    
-    /* Event Handling Methods */
-    setupEventListeners() {
-      // Mobile menu toggle
-      if (this.mobileMenuBtn) {
-        this.addEvent(this.mobileMenuBtn, 'click', this.toggleMobileMenu.bind(this));
-      }
-      
-      // Navigation clicks
-      this.navLinks.forEach(link => {
-        this.addEvent(link, 'click', this.handleNavClick.bind(this));
+    // Show custom topic field when "Other" is selected
+    const topicSelect = this.form.querySelector('#ai-topic');
+    if (topicSelect) {
+      topicSelect.addEventListener('change', (e) => {
+        const customTopicGroup = this.form.querySelector('#custom-topic-group');
+        customTopicGroup.style.display = e.target.value === 'other' ? 'block' : 'none';
       });
+    }
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    
+    // Check if user is authenticated
+    const isAuthenticated = this.checkAuthentication();
+    
+    if (!isAuthenticated) {
+      const hcaptchaResponse = hcaptcha.getResponse();
       
-      // Window events
-      this.addEvent(window, 'scroll', this.handleScroll.bind(this));
-      this.addEvent(window, 'resize', this.handleResize.bind(this));
-    }
-    
-    addEvent(element, type, handler) {
-      element.addEventListener(type, handler);
-      this.events.push({ element, type, handler });
-    }
-    
-    /* Core Functionality Methods */
-    toggleMobileMenu() {
-      this.nav.classList.toggle('open');
-      document.body.classList.toggle('nav-open');
-      this.animateMenuIcon();
-    }
-    
-    animateMenuIcon() {
-      if (!this.mobileMenuBtn) return;
-      
-      const icons = this.mobileMenuBtn.querySelectorAll('.menu-icon');
-      if (this.nav.classList.contains('open')) {
-        icons[0].style.transform = 'translateY(7px) rotate(45deg)';
-        icons[1].style.opacity = '0';
-        icons[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-      } else {
-        icons[0].style.transform = '';
-        icons[1].style.opacity = '';
-        icons[2].style.transform = '';
+      if (!hcaptchaResponse) {
+        alert('Please complete the hCaptcha verification');
+        hcaptcha.reset();
+        return;
       }
-    }
-    
-    handleNavClick(e) {
-      const link = e.currentTarget;
-      
-      // Handle anchor links
-      if (link.hash && link.hash.startsWith('#')) {
-        const target = document.querySelector(link.hash);
-        if (target) {
-          e.preventDefault();
-          this.scrollToSection(target);
-          
-          // Close mobile menu if open
-          if (this.nav.classList.contains('open')) {
-            this.toggleMobileMenu();
-          }
+
+      try {
+        const verification = await this.verifyCaptcha(hcaptchaResponse);
+        if (!verification.success) {
+          alert('CAPTCHA verification failed. Please try again.');
+          hcaptcha.reset();
+          return;
         }
+      } catch (error) {
+        console.error('CAPTCHA verification error:', error);
+        alert('Error verifying CAPTCHA. Please try again.');
+        return;
       }
     }
-    
-    scrollToSection(target) {
-      const headerHeight = this.header.offsetHeight;
-      const targetPosition = target.offsetTop - headerHeight - 20;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-    
-    /* Scroll and Resize Handlers */
-    handleScroll() {
-      const currentScrollY = window.scrollY;
-      
-      // Determine scroll direction
-      this.scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
-      this.lastScrollY = currentScrollY;
-      
-      // Toggle header visibility
-      if (currentScrollY > 100) {
-        if (this.scrollDirection === 'down') {
-          this.header.classList.add('scrolled-down');
-          this.header.classList.remove('scrolled-up');
-        } else {
-          this.header.classList.add('scrolled-up');
-          this.header.classList.remove('scrolled-down');
-        }
-      }
-      
-      // Toggle header shadow
-      this.header.classList.toggle('has-shadow', currentScrollY > 10);
-    }
-    
-    handleResize() {
-      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
-      
-      // Ensure mobile menu is closed on desktop
-      if (!this.isMobile && this.nav.classList.contains('open')) {
-        this.toggleMobileMenu();
-      }
-    }
-    
-    /* Active Link Management */
-    setActiveLink() {
-      const sections = document.querySelectorAll('section[id]');
-      const navHeight = this.header.offsetHeight;
-      
-      this.addEvent(window, 'scroll', () => {
-        let currentSection = '';
-        
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          
-          if (window.scrollY >= sectionTop - navHeight - 50) {
-            currentSection = section.getAttribute('id');
-          }
-        });
-        
-        this.navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-          }
-        });
-      });
-    }
-    
-  }
-  
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const thumbnail = document.getElementById('smart_thumbnail');
-    const modal = document.querySelector('.modal-overlay');
-    const modalImg = document.querySelector('.modal-content');
-    const closeBtn = document.querySelector('.close-modal');
-    
-    // Open modal
-    thumbnail.addEventListener('click', function() {
-      modal.style.display = "block";
-      modalImg.src = this.src;
+    // If we get here, proceed with form submission
+    this.submitForm();
+  }
+
+  checkAuthentication() {
+    // Implement your actual authentication check here
+    // Example: Check for auth token in cookies or localStorage
+    // return localStorage.getItem('authToken') !== null;
+    return false; // Default to false for security
+  }
+
+  async verifyCaptcha(token) {
+    const response = await fetch('/verify-captcha', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({ token })
     });
+    return response.json();
+  }
+
+  submitForm() {
+    // Using Fetch API for better error handling
+    const formData = new FormData(this.form);
     
-    // Close modal
-    closeBtn.addEventListener('click', function() {
-      modal.style.display = "none";
-    });
-    
-    // Close when clicking outside image
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.style.display = "none";
+    fetch(this.form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       }
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    })
+    .then(data => {
+      // Handle successful submission
+      alert('Form submitted successfully!');
+      this.form.reset();
+      hcaptcha.reset();
+    })
+    .catch(error => {
+      console.error('Form submission error:', error);
+      alert('There was a problem submitting your form. Please try again.');
     });
-    
-    // Close with ESC key
-    document.addEventListener('keydown', function(e) {
-      if (e.key === "Escape" && modal.style.display === "block") {
-        modal.style.display = "none";
-      }
-    });
+  }
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize navigation
+  new ProfessionalNavigation();
+  
+  // Initialize form handler
+  new FormHandler();
+  
+  const app = initApp();
+  
+  // Add loaded class for animations
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+    setTimeout(() => {
+      document.querySelector('header').classList.add('loaded');
+    }, 300);
   });
+});
 
-  /* Modern Page Lifecycle Management */
-  const initApp = () => {
-    const navigation = new ProfessionalNavigation();
-    
-    const cleanup = () => {
-      navigation.destroy();
-      // Add other cleanup tasks as needed
-    };
-    
-    // Modern page exit detection
-    if ('onpagehide' in window) {
-      window.addEventListener('pagehide', cleanup);
-    } else {
-      window.addEventListener('unload', cleanup);
-    }
-    
-    // Visibility change handling
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
-        cleanup();
-      }
-    });
-    
-    return navigation;
-  };
-  
-  // Initialize the application when DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    const app = initApp();
-    
-    // Add loaded class for animations
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-      setTimeout(() => {
-        document.querySelector('header').classList.add('loaded');
-      }, 300);
-    });
-  });
+// Modal functions
+function openPdfModal() {
+  document.getElementById('pdfModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
 
-  function openPdfModal() {
-    document.getElementById('pdfModal').style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
-  }
-  
-  function closePdfModal() {
-    document.getElementById('pdfModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
-  }
-  
-  // Close modal when clicking outside content
-  window.onclick = function(event) {
-    const modal = document.getElementById('pdfModal');
-    if (event.target == modal) {
-      closePdfModal();
-    }
-  }
+function closePdfModal() {
+  document.getElementById('pdfModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
 
-  document.getElementById('docLink').addEventListener('click', function(e) {
-    // Only navigate if not clicking on the child link
-    if (e.target === this) {
-        window.location.href = 'https://www.canva.com/design/DAGQt8qm8t8/nVlkk9JYJZ3g1tn-KslQwA/view';
-    }
+// Close modal when clicking outside content
+window.onclick = function(event) {
+  const modal = document.getElementById('pdfModal');
+  if (event.target == modal) {
+    closePdfModal();
+  }
+}
+
+// Document link handler
+document.getElementById('docLink').addEventListener('click', function(e) {
+  if (e.target === this) {
+    window.location.href = 'https://www.canva.com/design/DAGQt8qm8t8/nVlkk9JYJZ3g1tn-KslQwA/view';
+  }
 });

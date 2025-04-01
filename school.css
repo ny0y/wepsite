@@ -46,9 +46,12 @@ aside {
   flex: 1;
   overflow-y: auto;
   border-left: 1px solid #eaeaea;
-  padding-left: 2rem;
+  padding-left: 1rem;
 }
+blockquote{
+  padding: 1rem;
 
+}
 footer {
   padding: 1.5rem;
   text-align: center;
@@ -91,9 +94,12 @@ nav a.active {
 
 /* Utility Classes */
 .right {
-  margin-left: auto;
+  margin-left: 3.4rem;
 }
 
+.right .social-twitter{
+  margin-right: 2.1rem;
+}
 :focus {
   outline: 2px solid #4285f4;
   outline-offset: 2px;

@@ -44,10 +44,11 @@
   .project-card {
     background: white;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 1rem;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 20px rgba();
     transition: transform 0.3s ease;
+    max-width: fit-content;
   }
   
   .project-card:hover {
@@ -75,13 +76,6 @@
     box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
   }
   
-  /* Disqus Thread */
-  #disqus_thread {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-  }
   
   /* Social Buttons */
   .social-button {
@@ -821,13 +815,4 @@ footer img:hover {
   .contact-item a {
       font-size: 0.9rem;
   }
-}
-
-#disqus_thread {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-  margin: 3rem auto;
-  max-width: 1200px;
 }
